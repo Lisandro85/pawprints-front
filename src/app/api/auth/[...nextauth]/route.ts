@@ -23,9 +23,14 @@ const handler = NextAuth({
           }
         );
         const user = await res.json();
-        console.log(user);
+        console.log(
+          "Usuario recibido en authorize:",
+          JSON.stringify(user, null, 2)
+        );
+        if (!res.ok || user.error) {
+          throw new Error(user.error || "Error en la autenticación");
+        }
 
-        if (user.error) throw user;
         return user;
       },
     }),

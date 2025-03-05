@@ -4,8 +4,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function ButtonAuth() {
   const { data: session, status } = useSession();
 
-  console.log({ session, status });
-
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -13,7 +11,7 @@ export default function ButtonAuth() {
   if (session) {
     return (
       <>
-        Signed in as {session.user.userName} <br />
+        Signed in as {session.user?.email} <br />
         <button
           className="bg-red-500 text-white px-4 py-2 rounded"
           onClick={() => signOut()}
