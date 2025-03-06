@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { validationSchemaLogin } from "../../validationSchema/validationSchemaLogin";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const router = useRouter();
@@ -21,16 +22,22 @@ const Login = () => {
         password: values.password,
       });
       if (res?.error) {
-        alert(res.error);
+        Swal.fire({
+          title: res.error,
+          icon: "error",
+        });
       } else {
-        router.push("/dashboard");
+        Swal.fire({
+          title: "Usuario Logueado con Exito",
+          icon: "success",
+        });
+        router.push("/");
       }
     },
   });
 
   return (
     <div>
-      <h1>Login</h1>
       <div className="flex min-h-screen items-center justify-center">
         <form
           onSubmit={formik.handleSubmit}

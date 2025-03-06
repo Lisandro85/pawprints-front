@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionAuthProvider from "../../context/SessionAuthProvider";
+import NavBar from "../../components/NavBar";
 
 export const metadata: Metadata = {
   title: "Paw Prints",
@@ -16,7 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <SessionAuthProvider>{children}</SessionAuthProvider>
+          <SessionAuthProvider>
+            <NavBar />
+            {children}
+          </SessionAuthProvider>
         </main>
       </body>
     </html>
