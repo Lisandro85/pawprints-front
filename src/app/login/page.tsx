@@ -75,9 +75,9 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className=" border border-b-black m-2 p-2 bg-blue-500 rounded-lg"
+            className=" border border-b-black m-2 p-2 bg-blue-500 rounded-lg  hover:bg-green-400 "
           >
-            Sign In
+            Login
           </button>
         </form>
       </div>

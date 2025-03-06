@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+body {
+  background-image: url("/logo2.JPG");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

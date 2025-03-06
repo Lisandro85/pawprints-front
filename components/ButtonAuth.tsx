@@ -1,17 +1,24 @@
 "use client";
-
 import { signIn, signOut, useSession } from "next-auth/react";
+import { CiLogin, CiLogout } from "react-icons/ci";
 
-export default function ButtonAuth() {
+interface ButtonAuthProps {
+  onClick?: () => void;
+}
+export default function ButtonAuth({ onClick }: ButtonAuthProps) {
   const { data: session } = useSession();
 
   if (session) {
     return (
       <>
         <button
-          onClick={() => signOut()}
-          className="bg-red-500 px-1 py-2 rounded-lg"
+          onClick={() => {
+            signOut();
+            if (onClick) onClick();
+          }}
+          className="bg-red-500 px-2 py-1 rounded-lg text-base flex flex-row items-center gap-2 hover:bg-green-400 "
         >
+          <CiLogout />
           Logout
         </button>
       </>
@@ -20,9 +27,13 @@ export default function ButtonAuth() {
   return (
     <>
       <button
-        onClick={() => signIn()}
-        className="bg-blue-500 px-5 py-1 rounded-lg"
+        onClick={() => {
+          signIn();
+          if (onClick) onClick();
+        }}
+        className="bg-blue-500 px-2 py-1 rounded-lg text-base flex flex-row items-center gap-2 hover:bg-green-400 "
       >
+        <CiLogin />
         Login
       </button>
     </>

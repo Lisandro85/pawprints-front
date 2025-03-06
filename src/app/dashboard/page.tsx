@@ -1,13 +1,23 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
+  const router = useRouter();
   const { data: session, status } = useSession();
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-  console.log(session?.user?.token);
+  useEffect(() => {
+    if (session?.user?.role !== "admin") {
+      Swal.fire({
+        title: "NO TIENES ACCESO",
+        icon: "warning",
+      });
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   const getCats = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
