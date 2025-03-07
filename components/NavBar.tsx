@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import ButtonAuth from "./ButtonAuth";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUserAlt, FaUserAltSlash } from "react-icons/fa";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoBodySharp } from "react-icons/io5";
 import { FiMenu, FiX } from "react-icons/fi";
+import { MdFormatAlignLeft } from "react-icons/md";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,7 @@ const NavBar = () => {
     };
   }, []);
   return (
-    <nav className="flex flex-row p-1 justify-between items-center text-3xl bg-blue-600">
+    <nav className="flex flex-row p-1 justify-between items-center text-3xl bg-blue-600 mb-5">
       <div className="flex items-center justify-center">
         <Image
           src={"/logo.jpg"}
@@ -49,7 +50,7 @@ const NavBar = () => {
         <Link
           href={"/"}
           className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
-            pathName === "/" && "bg-amber-300"
+            pathName === "/" && "bg-emerald-400/60 "
           }`}
         >
           Home
@@ -58,17 +59,29 @@ const NavBar = () => {
         <Link
           href={"/about"}
           className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
-            pathName === "/about" && "bg-amber-300"
+            pathName === "/about" && "bg-emerald-400/60 "
           }`}
         >
           About
           <IoBodySharp />
         </Link>
+        {!session && (
+          <Link
+            href={"/register"}
+            className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
+              pathName === "/regiister" && "bg-emerald-400/60 "
+            }`}
+          >
+            Registrarse
+            <MdFormatAlignLeft />
+          </Link>
+        )}
+
         {session?.user.role === "admin" && (
           <Link
             href={"/dashboard"}
             className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
-              pathName === "/dashboard" && "bg-amber-300"
+              pathName === "/dashboard" && "bg-emerald-400/60"
             }`}
           >
             Dashboard
@@ -77,8 +90,12 @@ const NavBar = () => {
         )}
       </div>
 
-      <div className="ml-auto flex-row justify-between text-base hidden">
-        <h1 className="p-2">{session?.user.name}</h1>
+      <div className="ml-auto flex-row justify-between text-base hidden md:flex">
+        <h1 className="p-2 flex flex-row items-center gap-2">
+          {session ? <FaUserAlt /> : <FaUserAltSlash />}
+
+          {session?.user.name}
+        </h1>
         <ButtonAuth />
       </div>
 
@@ -95,25 +112,38 @@ const NavBar = () => {
         >
           <Link
             href="/"
-            className="p-2 rounded-lg w-full text-center hover:bg-green-400"
+            className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
             onClick={() => setIsOpen(false)}
           >
             Home
+            <FaHome />
           </Link>
           <Link
             href="/about"
-            className="p-2 rounded-lg w-full text-center hover:bg-green-400"
+            className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
             onClick={() => setIsOpen(false)}
           >
             About
+            <IoBodySharp />
           </Link>
+          {!session && (
+            <Link
+              href="/register"
+              className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
+              onClick={() => setIsOpen(false)}
+            >
+              Registrarse
+              <MdFormatAlignLeft />
+            </Link>
+          )}
           {session?.user.role === "admin" && (
             <Link
               href="/dashboard"
-              className="p-2 rounded-lg w-full text-center hover:bg-green-400"
+              className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
               onClick={() => setIsOpen(false)}
             >
               Dashboard
+              <AiOutlineDashboard />
             </Link>
           )}
           <div className="w-full flex flex-col items-center mt-4">

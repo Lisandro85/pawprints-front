@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import Swal from "sweetalert2";
+import Loader from "../../../components/Loadder";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const Dashboard = () => {
     }
   }, [session, status, router]);
 
-  const getCats = async () => {
+  const getUsers = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
       method: "GET",
       headers: {
@@ -33,8 +34,9 @@ const Dashboard = () => {
 
   return (
     <div>
+      <Loader />
       <h1>Dashboard</h1>
-      <button onClick={getCats} className=" bg-blue-500 px-5 py-2 rounded-lg">
+      <button onClick={getUsers} className=" bg-blue-500 px-5 py-2 rounded-lg">
         Get Users
       </button>
       <button

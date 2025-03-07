@@ -12,14 +12,14 @@ export default function ButtonAuth({ onClick }: ButtonAuthProps) {
     return (
       <>
         <button
+          title="Logout"
           onClick={() => {
             signOut();
             if (onClick) onClick();
           }}
-          className="bg-red-500 px-2 py-1 rounded-lg text-base flex flex-row items-center gap-2 hover:bg-green-400 "
+          className="bg-green-400  px-2 py-1 rounded-lg text-base flex flex-row items-center hover:bg-red-500"
         >
           <CiLogout />
-          Logout
         </button>
       </>
     );
@@ -27,6 +27,7 @@ export default function ButtonAuth({ onClick }: ButtonAuthProps) {
   return (
     <>
       <button
+        title="Login"
         onClick={() => {
           signIn();
           if (onClick) onClick();
