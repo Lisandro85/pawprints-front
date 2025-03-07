@@ -67,14 +67,16 @@ function Register() {
   return (
     <div>
       <Loader />
-      <div className="flex min-h-screen items-center justify-center ">
+      <div className="flex  items-center justify-center mb-5 ">
         <form
           onSubmit={formik.handleSubmit}
-          className="flex flex-col gap-1  p-2 justify-center items-center border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90"
+          className="flex flex-col gap-1  p-2 items-center border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90"
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:flex-row">
             <div className="flex flex-col text-center">
-              <label htmlFor="name">Nombre</label>
+              <label htmlFor="name" className="text-xs text-center">
+                Nombre
+              </label>
               <input
                 id="name"
                 name="name"
@@ -82,14 +84,16 @@ function Register() {
                 onChange={formik.handleChange}
                 value={formik.values.name}
                 placeholder="Your Name"
-                className=" border border-black m-2 rounded-lg p-1 text-emerald-300"
+                className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
               />
               {formik.errors.name && formik.touched.name && (
                 <div style={{ color: "red" }}>{formik.errors.name}</div>
               )}
             </div>
             <div className="flex flex-col text-center">
-              <label htmlFor="lastName">Apellido</label>
+              <label htmlFor="lastName" className="text-xs text-center">
+                Apellido
+              </label>
               <input
                 id="lastName"
                 name="lastName"
@@ -97,16 +101,18 @@ function Register() {
                 onChange={formik.handleChange}
                 value={formik.values.lastName}
                 placeholder="Your lastName"
-                className=" border border-black m-2 rounded-lg text-base p-1 text-emerald-300"
+                className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
               />
               {formik.errors.lastName && formik.touched.lastName && (
                 <div style={{ color: "red" }}>{formik.errors.lastName}</div>
               )}
             </div>
           </div>
-          <div className="flex flex-col">
-            <div className="flex flex-col text-center">
-              <label htmlFor="email">Email</label>
+          <div className="flex flex-col sm:flex-row">
+            <div className="flex flex-col text-center items-left">
+              <label htmlFor="email" className="text-xs text-center">
+                Email
+              </label>
               <input
                 id="email"
                 name="email"
@@ -114,14 +120,17 @@ function Register() {
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 placeholder="Your Email"
-                className=" border border-black m-2 rounded-lg text-base p-1 text-emerald-300"
+                className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs w-52"
               />
               {formik.errors.email && formik.touched.email && (
                 <div style={{ color: "red" }}>{formik.errors.email}</div>
               )}
             </div>
+
             <div className="flex flex-col justify-center">
-              <label htmlFor="birthDate">Fecha de Nacimiento</label>
+              <label htmlFor="birthDate" className="text-xs text-center">
+                Fecha de Nacimiento
+              </label>
               <input
                 id="birthDate"
                 name="birthDate"
@@ -129,7 +138,7 @@ function Register() {
                 onChange={formik.handleChange}
                 value={formik.values.birthDate}
                 placeholder="Your Bithdate"
-                className=" border border-black m-2 rounded-lg text-base p-1 text-emerald-300"
+                className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
               />
               {formik.errors.birthDate && formik.touched.birthDate && (
                 <div style={{ color: "red" }}>{formik.errors.birthDate}</div>
@@ -137,9 +146,10 @@ function Register() {
             </div>
           </div>
 
-          <h1>Define tus credenciales:</h1>
-          <div>
-            <label htmlFor="username">Username</label>
+          <div className="flex flex-row items-center">
+            <label htmlFor="username" className="text-xs">
+              Username
+            </label>
             <input
               id="username"
               name="username"
@@ -147,14 +157,16 @@ function Register() {
               onChange={formik.handleChange}
               value={formik.values.username}
               placeholder="Your Username"
-              className=" border border-black m-2 rounded-lg p-1 text-emerald-300"
+              className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
             />
             {formik.errors.username && formik.touched.username && (
               <div style={{ color: "red" }}>{formik.errors.username}</div>
             )}
           </div>
-          <div>
-            <label htmlFor="password">Password</label>
+          <div className="flex flex-row items-center">
+            <label htmlFor="password" className="text-xs">
+              Password
+            </label>
             <input
               id="password"
               name="password"
@@ -162,7 +174,7 @@ function Register() {
               onChange={formik.handleChange}
               value={formik.values.password}
               placeholder="Your Password"
-              className=" border border-black m-2 rounded-lg text-base p-1 text-emerald-300"
+              className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
             />
             {formik.errors.password && formik.touched.password && (
               <div style={{ color: "red" }}>{formik.errors.password}</div>
@@ -171,11 +183,11 @@ function Register() {
           <button
             disabled={!(formik.isValid && formik.dirty)}
             type="submit"
-            className=" border border-b-black m-2 p-2 bg-blue-500 rounded-lg  hover:bg-green-400 disabled:bg-gray-600 "
+            className=" border border-b-black m-2 py-1 px-2 bg-blue-500 rounded-lg  hover:bg-green-400 disabled:bg-gray-600 "
           >
             Registrarse
           </button>
-          <p>
+          <p className="text-xs">
             Ya tienes una cuenta??{" "}
             <Link className="text-emerald-300" href="/login">
               Login

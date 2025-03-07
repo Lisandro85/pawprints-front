@@ -52,10 +52,12 @@ const Login = () => {
       <div className="flex min-h-screen items-center justify-center ">
         <form
           onSubmit={formik.handleSubmit}
-          className="flex flex-col gap-4  p-2 justify-center items-center border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90"
+          className="flex flex-col gap-2  p-2 justify-center items-center border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90"
         >
           <div>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" className="text-xs">
+              Username
+            </label>
             <input
               id="username"
               name="username"
@@ -63,14 +65,16 @@ const Login = () => {
               onChange={formik.handleChange}
               value={formik.values.username}
               placeholder="Your Username"
-              className=" border border-black m-2 rounded-lg p-1 text-emerald-300"
+              className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
             />
             {formik.errors.username && formik.touched.username && (
               <div style={{ color: "red" }}>{formik.errors.username}</div>
             )}
           </div>
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className="text-xs">
+              Password
+            </label>
             <input
               id="password"
               name="password"
@@ -78,7 +82,7 @@ const Login = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
               placeholder="Your Password"
-              className=" border border-black m-2 rounded-lg text-base p-1 text-emerald-300"
+              className=" border border-black m-2 rounded-lg text-xs p-1 text-emerald-300"
             />
             {formik.errors.password && formik.touched.password && (
               <div style={{ color: "red" }}>{formik.errors.password}</div>
@@ -87,11 +91,11 @@ const Login = () => {
           <button
             disabled={!(formik.isValid && formik.dirty)}
             type="submit"
-            className=" border border-b-black m-2 p-2 bg-blue-500 rounded-lg  hover:bg-green-400 disabled:bg-gray-600 "
+            className=" border border-b-black m-2 py-1 px-10 bg-blue-500 rounded-lg  hover:bg-green-400 disabled:bg-gray-600 "
           >
             Login
           </button>
-          <p>
+          <p className="text-xs">
             Todavia no estas registrado?{" "}
             <Link className="text-emerald-300" href="/register">
               Registrate
