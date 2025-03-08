@@ -10,6 +10,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { IoBodySharp } from "react-icons/io5";
 import { FiMenu, FiX } from "react-icons/fi";
 import { MdFormatAlignLeft } from "react-icons/md";
+import { SiDatadog } from "react-icons/si";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,11 +70,22 @@ const NavBar = () => {
           <Link
             href={"/register"}
             className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
-              pathName === "/regiister" && "bg-emerald-400/60 "
+              pathName === "/register" && "bg-emerald-400/60 "
             }`}
           >
             Registrarse
             <MdFormatAlignLeft />
+          </Link>
+        )}
+        {session && (
+          <Link
+            href={"/post"}
+            className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
+              pathName === "/post" && "bg-emerald-400/60 "
+            }`}
+          >
+            Post
+            <SiDatadog />
           </Link>
         )}
 
@@ -108,7 +120,7 @@ const NavBar = () => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="md:hidden absolute top-16 left-0 w-full bg-blue-700 text-white flex flex-col items-center space-y-4 py-4"
+          className="md:hidden absolute top-16 left-0 w-full bg-blue-700 text-white flex flex-col items-center space-y-4 py-4 z-50"
         >
           <Link
             href="/"
@@ -136,6 +148,17 @@ const NavBar = () => {
               <MdFormatAlignLeft />
             </Link>
           )}
+          {session && (
+            <Link
+              href="/post"
+              className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
+              onClick={() => setIsOpen(false)}
+            >
+              Post
+              <SiDatadog />
+            </Link>
+          )}
+
           {session?.user.role === "admin" && (
             <Link
               href="/dashboard"
