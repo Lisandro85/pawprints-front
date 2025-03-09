@@ -33,7 +33,6 @@ function Register() {
     },
     validationSchema: validationSchemaRegister,
     onSubmit: async (values) => {
-      console.log("Datos enviados al backend:", values);
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/register`,

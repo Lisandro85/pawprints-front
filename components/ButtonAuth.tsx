@@ -1,5 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { CiLogin, CiLogout } from "react-icons/ci";
 
 interface ButtonAuthProps {
@@ -7,6 +8,7 @@ interface ButtonAuthProps {
 }
 export default function ButtonAuth({ onClick }: ButtonAuthProps) {
   const { data: session } = useSession();
+  const router = useRouter();
 
   if (session) {
     return (
@@ -15,6 +17,7 @@ export default function ButtonAuth({ onClick }: ButtonAuthProps) {
           title="Logout"
           onClick={() => {
             signOut();
+            router.push("/");
             if (onClick) onClick();
           }}
           className="bg-green-400  px-2 py-1 rounded-lg text-base flex flex-row items-center hover:bg-red-500"

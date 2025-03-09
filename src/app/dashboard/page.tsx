@@ -17,6 +17,7 @@ const Dashboard = () => {
         icon: "warning",
       });
       router.push("/");
+      return;
     }
   }, [session, status, router]);
 

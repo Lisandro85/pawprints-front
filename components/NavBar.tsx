@@ -11,6 +11,7 @@ import { IoBodySharp } from "react-icons/io5";
 import { FiMenu, FiX } from "react-icons/fi";
 import { MdFormatAlignLeft } from "react-icons/md";
 import { SiDatadog } from "react-icons/si";
+import { BsSearchHeart } from "react-icons/bs";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +44,7 @@ const NavBar = () => {
           width={40}
           height={40}
           className="rounded-full"
+          priority
           onClick={() => router.push("/")}
         />
       </div>
@@ -84,8 +86,19 @@ const NavBar = () => {
               pathName === "/post" && "bg-emerald-400/60 "
             }`}
           >
-            Post
+            Post Animal
             <SiDatadog />
+          </Link>
+        )}
+        {session && (
+          <Link
+            href={"/lost"}
+            className={` p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
+              pathName === "/lost" && "bg-emerald-400/60 "
+            }`}
+          >
+            Found Animals
+            <BsSearchHeart />
           </Link>
         )}
 
@@ -154,8 +167,18 @@ const NavBar = () => {
               className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
               onClick={() => setIsOpen(false)}
             >
-              Post
+              Post Animal
               <SiDatadog />
+            </Link>
+          )}
+          {session && (
+            <Link
+              href="/lost"
+              className="p-2 rounded-lg w-full text-center hover:bg-green-400 flex flex-row items-center gap-1 justify-center"
+              onClick={() => setIsOpen(false)}
+            >
+              Found Animals
+              <BsSearchHeart />
             </Link>
           )}
 
