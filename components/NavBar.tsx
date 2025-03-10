@@ -9,7 +9,7 @@ import { FaHome, FaUserAlt, FaUserAltSlash } from "react-icons/fa";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoBodySharp } from "react-icons/io5";
 import { FiMenu, FiX } from "react-icons/fi";
-import { MdFormatAlignLeft } from "react-icons/md";
+import { MdFormatAlignLeft, MdMessage } from "react-icons/md";
 import { SiDatadog } from "react-icons/si";
 import { BsSearchHeart } from "react-icons/bs";
 
@@ -117,7 +117,14 @@ const NavBar = () => {
 
       <div className="ml-auto flex-row justify-between text-base hidden md:flex">
         <h1 className="p-2 flex flex-row items-center gap-2">
-          {session ? <FaUserAlt /> : <FaUserAltSlash />}
+          {session ? (
+            <>
+              <MdMessage onClick={() => router.push("/message")} />
+              <FaUserAlt />
+            </>
+          ) : (
+            <FaUserAltSlash />
+          )}
 
           {session?.user.name}
         </h1>
