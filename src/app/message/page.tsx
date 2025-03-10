@@ -6,6 +6,7 @@ import FormMessage from "../../../components/FormMessage";
 
 const Message = () => {
   const [data, setData] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
   const { data: session, status } = useSession();
   const [idUser, setIdUser] = useState<string | null>(null);
 
@@ -36,39 +37,68 @@ const Message = () => {
 
   return (
     <div>
-      <h2>Mensajes Enviados</h2>
-      {sentMessages.length > 0 ? (
-        sentMessages.map((message) => (
-          <FormMessage
-            key={message.id}
-            sender={message.sender.name}
-            receiver={message.receiver.name}
-            message={message.message}
-            subject={message.subject}
-            date={message.create_At}
-            type="sent"
-          />
-        ))
-      ) : (
-        <p>No tienes mensajes enviados.</p>
-      )}
-
-      <h2>Mensajes Recibidos</h2>
-      {receivedMessages.length > 0 ? (
-        receivedMessages.map((message) => (
-          <FormMessage
-            key={message.id}
-            sender={message.sender.name}
-            receiver={message.receiver.name}
-            message={message.message}
-            subject={message.subject}
-            date={message.create_At}
-            type="received"
-          />
-        ))
-      ) : (
-        <p>No tienes mensajes recibidos.</p>
-      )}
+      <div className="flex border-b-2 border-gray-300">
+        <button
+          className={`px-4 py-2 ${
+            activeTab === "received"
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-500"
+          }`}
+          onClick={() => setActiveTab("received")}
+        >
+          Mensajes Recibidos
+        </button>
+        <button
+          className={`px-4 py-2 ${
+            activeTab === "sent"
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-500"
+          }`}
+          onClick={() => setActiveTab("sent")}
+        >
+          Mensajes Enviados
+        </button>
+      </div>
+      <div className="mt-4">
+        {activeTab === "received" ? (
+          <div>
+            {receivedMessages.length > 0 ? (
+              receivedMessages.map((message) => (
+                <div key={message.id}>
+                  <FormMessage
+                    sender={message.sender.name}
+                    receiver={message.receiver.name}
+                    message={message.message}
+                    subject={message.subject}
+                    date={message.create_At}
+                    type="received"
+                  />
+                </div>
+              ))
+            ) : (
+              <p>No has recibidos mensajes.</p>
+            )}
+          </div>
+        ) : (
+          <div>
+            {sentMessages.length > 0 ? (
+              sentMessages.map((message) => (
+                <FormMessage
+                  key={message.id}
+                  sender={message.sender.name}
+                  receiver={message.receiver.name}
+                  message={message.message}
+                  subject={message.subject}
+                  date={message.create_At}
+                  type="sent"
+                />
+              ))
+            ) : (
+              <p>No has enviados mensajes</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

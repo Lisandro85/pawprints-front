@@ -12,16 +12,36 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { MdFormatAlignLeft, MdMessage } from "react-icons/md";
 import { SiDatadog } from "react-icons/si";
 import { BsSearchHeart } from "react-icons/bs";
+import { fetchData } from "@/utils/getDataApi";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const pathName = usePathname();
   const { data: session, status } = useSession();
-
   const router = useRouter();
-
   const menuRef = useRef<HTMLDivElement>(null);
+  const [idUser, setIdUser] = useState<string | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      setIdUser(session.user.id);
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (idUser) {
+      const getMessages = async () => {
+        try {
+          const response = await fetchData(`message/receiver/${idUser}`);
+          setMessages(response);
+        } catch (error) {
+          console.error("Error al obtener los mensajes:", error);
+        }
+      };
+      getMessages();
+    }
+  }, [idUser]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -115,7 +135,9 @@ const NavBar = () => {
         )}
       </div>
 
-      <div className="ml-auto flex-row justify-between text-base hidden md:flex">
+      <div className="ml-auto flex-row justify-between text-base hidden md:flex items-center">
+        <h1>{messages}</h1>
+
         <h1 className="p-2 flex flex-row items-center gap-2">
           {session ? (
             <>
