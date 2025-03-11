@@ -1,7 +1,9 @@
-"use client";
 import React, { useState } from "react";
+import MessageModal from "./MessageModal ";
 
 interface MessageProps {
+  idSender: string | null;
+  idReceiver: string | null;
   receiver: string;
   sender: string;
   message: string;
@@ -12,15 +14,25 @@ interface MessageProps {
 
 const FormMessage = (props: MessageProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
+  console.log(props);
   const formattedDate = props.date
     ? new Date(props.date).toLocaleDateString()
     : "";
 
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
   return (
     <div>
       <div
-        className="flex flex-row justify-between items-cente rm-2 p-2"
+        className="flex flex-row justify-between items-center p-2"
         onClick={() => setIsOpen(true)}
       >
         <h1>
@@ -34,11 +46,14 @@ const FormMessage = (props: MessageProps) => {
 
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className=" bg-white p-2 rounded-lg shadow-lg w-96">
+          <div className="bg-white p-2 rounded-lg shadow-lg w-96">
             <p className="text-gray-800 mt-4">Mensaje: "{props.message}"</p>
             <div className="flex justify-end gap-2 mt-4">
               {props.type === "received" && (
-                <button className="py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300">
+                <button
+                  className="py-1 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
+                  onClick={openModal}
+                >
                   Responder
                 </button>
               )}
@@ -55,6 +70,19 @@ const FormMessage = (props: MessageProps) => {
           </div>
         </div>
       )}
+
+      <MessageModal
+        isOpen={isOpenModal}
+        onClose={closeModal}
+        senderId={props.idReceiver}
+        receiverId={props.idSender}
+        receiverName={props.receiver}
+        onSendMessage={(subject, message) => {
+          console.log("Mensaje enviado:", subject, message);
+          setIsOpen(false);
+          closeModal();
+        }}
+      />
     </div>
   );
 };

@@ -5,26 +5,23 @@ import FormMessage from "../../../components/FormMessage";
 import { useMessages } from "../../../context/Message.context";
 
 const Message = () => {
-  const { messages, markAsRead, fetchMessages } = useMessages(); // Usamos directamente los mensajes del contexto
+  const { messages, markAsRead, fetchMessages } = useMessages();
   const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
   const { data: session } = useSession();
   const [idUser, setIdUser] = useState<string | null>(null);
 
-  // Establecer el id del usuario cuando la sesión esté lista
   useEffect(() => {
     if (session?.user?.id) {
       setIdUser(session.user.id);
     }
   }, [session]);
 
-  // Cargar los mensajes cuando se haya establecido idUser
   useEffect(() => {
     if (idUser) {
-      fetchMessages(idUser); // Cargar mensajes al establecer el idUser
+      fetchMessages(idUser);
     }
   }, [idUser, fetchMessages]);
 
-  // Filtrar los mensajes enviados y recibidos en base al idUser
   const sentMessages = messages.filter(
     (message) => message.sender.id === idUser
   );
@@ -73,7 +70,9 @@ const Message = () => {
                 >
                   <FormMessage
                     sender={message.sender.name}
+                    idSender={message.sender.id}
                     receiver={message.receiver.name}
+                    idReceiver={message.receiver.id}
                     message={message.message}
                     subject={message.subject}
                     date={message.create_At}
@@ -95,7 +94,9 @@ const Message = () => {
                 >
                   <FormMessage
                     sender={message.sender.name}
+                    idSender={message.sender.id}
                     receiver={message.receiver.name}
+                    idReceiver={message.receiver.id}
                     message={message.message}
                     subject={message.subject}
                     date={message.create_At}
