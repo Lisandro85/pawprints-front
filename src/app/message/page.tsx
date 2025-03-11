@@ -64,9 +64,11 @@ const Message = () => {
               receivedMessages.map((message) => (
                 <div
                   key={message.id}
-                  onClick={() => markAsRead(message.id)} // Usamos markAsRead del contexto
-                  className={`cursor-pointer p-2 rounded-lg ${
-                    !message.isRead ? "bg-gray-200 font-bold" : "bg-white"
+                  onClick={() => markAsRead(message.id)}
+                  className={`cursor-pointer rounded-lg border border-black m-2 ${
+                    !message.isRead
+                      ? "bg-emerald-100 text-black font-bold "
+                      : "bg-gray-200 text-gray-400 font-normal"
                   }`}
                 >
                   <FormMessage
@@ -87,15 +89,19 @@ const Message = () => {
           <div>
             {sentMessages.length > 0 ? (
               sentMessages.map((message) => (
-                <FormMessage
+                <div
                   key={message.id}
-                  sender={message.sender.name}
-                  receiver={message.receiver.name}
-                  message={message.message}
-                  subject={message.subject}
-                  date={message.create_At}
-                  type="sent"
-                />
+                  className="cursor-pointer rounded-lg border border-black m-2 bg-blue-200 text-black"
+                >
+                  <FormMessage
+                    sender={message.sender.name}
+                    receiver={message.receiver.name}
+                    message={message.message}
+                    subject={message.subject}
+                    date={message.create_At}
+                    type="sent"
+                  />
+                </div>
               ))
             ) : (
               <p>No has enviado mensajes.</p>

@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <div>
-      <Loader />
+      {status === "loading" && <Loader />}
       <div className="flex min-h-screen items-center justify-center ">
         <form
           onSubmit={formik.handleSubmit}

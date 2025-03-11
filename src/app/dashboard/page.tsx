@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Loader />
+      {status === "loading" && <Loader />}
       <h1>Dashboard</h1>
       <button onClick={getUsers} className=" bg-blue-500 px-5 py-2 rounded-lg">
         Get Users

@@ -65,7 +65,7 @@ function Register() {
 
   return (
     <div>
-      <Loader />
+      {status === "loading" && <Loader />}
       <div className="flex  items-center justify-center mb-5 ">
         <form
           onSubmit={formik.handleSubmit}

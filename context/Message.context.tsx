@@ -17,6 +17,7 @@ type MessageContextType = {
   unreadMessages: Message[];
   fetchMessages: (userId: string) => void;
   markAsRead: (messageId: string) => void;
+  refreshMessages: () => void;
 };
 
 const MessageContext = createContext<MessageContextType | undefined>(undefined);
@@ -38,27 +39,24 @@ export const MessageProvider: React.FC<MessageProviderProps> = ({
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [idUser, setIdUser] = useState<string | null>(null);
-  const [isMessagesFetched, setIsMessagesFetched] = useState(false);
 
   useEffect(() => {
-    if (idUser && !isMessagesFetched) {
-      const getMessages = async () => {
+    const getMessages = async () => {
+      if (idUser) {
         try {
           const response = await fetchData(`message/user/${idUser}`);
           setMessages(response);
-          setIsMessagesFetched(true);
         } catch (error) {
           console.error("Error al obtener los mensajes:", error);
         }
-      };
-      getMessages();
-    }
-  }, [idUser, isMessagesFetched]);
+      }
+    };
+    getMessages();
+  }, [idUser]);
 
   const fetchMessages = async (userId: string) => {
     if (idUser !== userId) {
       setIdUser(userId);
-      setIsMessagesFetched(false);
     }
   };
 
@@ -81,13 +79,27 @@ export const MessageProvider: React.FC<MessageProviderProps> = ({
       console.error("Error al marcar como leído:", error);
     }
   };
+
+  const refreshMessages = async () => {
+    if (idUser) {
+      const response = await fetchData(`message/user/${idUser}`);
+      setMessages(response);
+    }
+  };
+
   const unreadMessages = messages.filter(
     (message) => message.receiver.id === idUser && !message.isRead
   );
 
   return (
     <MessageContext.Provider
-      value={{ messages, unreadMessages, fetchMessages, markAsRead }}
+      value={{
+        messages,
+        unreadMessages,
+        fetchMessages,
+        markAsRead,
+        refreshMessages,
+      }}
     >
       {children}
     </MessageContext.Provider>

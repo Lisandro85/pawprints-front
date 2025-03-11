@@ -3,26 +3,19 @@ import { fetchData } from "@/utils/getDataApi";
 import React, { useEffect, useState } from "react";
 import CardAnimals from "../../../components/CardAnimals";
 import Loader from "../../../components/Loadder";
-
 import { useSession } from "next-auth/react";
-import Swal from "sweetalert2";
-import { useRouter } from "next/navigation";
 
 const Lost = () => {
   const [data, setData] = useState<any[]>([]);
-  const router = useRouter();
   const { data: session, status } = useSession();
+  const [currentUserId, seturrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!session) {
-      Swal.fire({
-        title: "NO TIENES ACCESO",
-        icon: "warning",
-      });
-      router.push("/login");
-      return;
+    if (session?.user.id) {
+      const currentUserId = session.user.id;
+      seturrentUserId(currentUserId);
     }
-  }, [session, status, router]);
+  }, [session]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -37,7 +30,7 @@ const Lost = () => {
 
   return (
     <div>
-      <Loader />
+      {status === "loading" && <Loader />}
       <div className="flex flex-col sm:flex-row justify-center items-center gap-2 m-2">
         {data ? (
           data.map((post) => (
@@ -46,6 +39,8 @@ const Lost = () => {
               user={post.user.name}
               url={post.urlImg}
               description={post.description}
+              idUser={post.user.id}
+              currentUserId={currentUserId}
             />
           ))
         ) : (
