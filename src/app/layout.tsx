@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SessionAuthProvider from "../../context/SessionAuthProvider";
 import NavBar from "../../components/NavBar";
+import { MessageProvider } from "../../context/Message.context";
 
 export const metadata: Metadata = {
   title: "Paw Prints",
@@ -18,8 +19,10 @@ export default function RootLayout({
       <body>
         <main>
           <SessionAuthProvider>
-            <NavBar />
-            {children}
+            <MessageProvider>
+              <NavBar />
+              {children}
+            </MessageProvider>
           </SessionAuthProvider>
         </main>
       </body>

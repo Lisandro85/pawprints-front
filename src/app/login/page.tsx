@@ -7,16 +7,18 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loadder";
 import Link from "next/link";
+import { useMessages } from "../../../context/Message.context";
 
 const Login = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { fetchMessages } = useMessages();
 
   useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/");
+    if (session?.user?.id) {
+      fetchMessages(session.user.id);
     }
-  }, [session]);
+  }, [status]);
 
   const formik = useFormik({
     initialValues: {

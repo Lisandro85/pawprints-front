@@ -1,37 +1,34 @@
 "use client";
-import { fetchData } from "@/utils/getDataApi";
-import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import FormMessage from "../../../components/FormMessage";
+import { useMessages } from "../../../context/Message.context";
 
 const Message = () => {
-  const [data, setData] = useState<any[]>([]);
+  const { messages, markAsRead, fetchMessages } = useMessages(); // Usamos directamente los mensajes del contexto
   const [activeTab, setActiveTab] = useState<"sent" | "received">("received");
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [idUser, setIdUser] = useState<string | null>(null);
 
+  // Establecer el id del usuario cuando la sesión esté lista
   useEffect(() => {
     if (session?.user?.id) {
       setIdUser(session.user.id);
     }
   }, [session]);
 
+  // Cargar los mensajes cuando se haya establecido idUser
   useEffect(() => {
     if (idUser) {
-      const getMessages = async () => {
-        try {
-          const response = await fetchData(`message/user/${idUser}`);
-          setData(response);
-        } catch (error) {
-          console.error("Error al obtener los mensajes:", error);
-        }
-      };
-      getMessages();
+      fetchMessages(idUser); // Cargar mensajes al establecer el idUser
     }
-  }, [idUser]);
+  }, [idUser, fetchMessages]);
 
-  const sentMessages = data.filter((message) => message.sender.id === idUser);
-  const receivedMessages = data.filter(
+  // Filtrar los mensajes enviados y recibidos en base al idUser
+  const sentMessages = messages.filter(
+    (message) => message.sender.id === idUser
+  );
+  const receivedMessages = messages.filter(
     (message) => message.receiver.id === idUser
   );
 
@@ -59,12 +56,19 @@ const Message = () => {
           Mensajes Enviados
         </button>
       </div>
+
       <div className="mt-4">
         {activeTab === "received" ? (
           <div>
             {receivedMessages.length > 0 ? (
               receivedMessages.map((message) => (
-                <div key={message.id}>
+                <div
+                  key={message.id}
+                  onClick={() => markAsRead(message.id)} // Usamos markAsRead del contexto
+                  className={`cursor-pointer p-2 rounded-lg ${
+                    !message.isRead ? "bg-gray-200 font-bold" : "bg-white"
+                  }`}
+                >
                   <FormMessage
                     sender={message.sender.name}
                     receiver={message.receiver.name}
@@ -76,7 +80,7 @@ const Message = () => {
                 </div>
               ))
             ) : (
-              <p>No has recibidos mensajes.</p>
+              <p>No has recibido mensajes.</p>
             )}
           </div>
         ) : (
@@ -94,7 +98,7 @@ const Message = () => {
                 />
               ))
             ) : (
-              <p>No has enviados mensajes</p>
+              <p>No has enviado mensajes.</p>
             )}
           </div>
         )}
