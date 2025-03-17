@@ -23,7 +23,9 @@ const Lost = () => {
         const data = await fetchData("upload");
         setData(data);
         console.log(data);
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchPost();
   }, []);
@@ -31,8 +33,8 @@ const Lost = () => {
   return (
     <div>
       {status === "loading" && <Loader />}
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-2 m-2">
-        {data ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 m-2  justify-items-center">
+        {data.length > 0 ? (
           data.map((post) => (
             <CardAnimals
               key={post.id}

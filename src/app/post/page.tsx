@@ -19,6 +19,8 @@ const Post = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [address, setAddress] = useState<string | null>(null);
+
   useEffect(() => {
     if (session?.user.id) {
       formik.setFieldValue("userId", session.user.id);
@@ -30,7 +32,7 @@ const Post = () => {
       image: null,
       description: "",
       userId: session?.user.id,
-      adress: "",
+      adress: address || "",
     },
     validationSchema: validationSchemaPost,
     onSubmit: async (values) => {
@@ -83,6 +85,11 @@ const Post = () => {
     }
   };
 
+  const handleAddressChange = (newAddress: string) => {
+    setAddress(newAddress);
+    formik.setFieldValue("adress", newAddress);
+  };
+
   return (
     <>
       {status === "loading" && <Loader />}
@@ -103,7 +110,6 @@ const Post = () => {
             />
             {formik.values.image && <FcOk size={28} />}
           </div>
-
           {preview && (
             <img
               src={preview}
@@ -111,11 +117,9 @@ const Post = () => {
               className="w-32 h-32 object-cover mt-2 rounded-lg"
             />
           )}
-
           {formik.errors.image && formik.touched.image && (
             <p className="text-red-500">{formik.errors.image}</p>
           )}
-
           <label htmlFor="description">Descripción:</label>
           <textarea
             name="description"
@@ -128,20 +132,22 @@ const Post = () => {
           {formik.errors.description && formik.touched.description && (
             <p className="text-red-500">{formik.errors.description}</p>
           )}
-
           <label htmlFor="adress">Adress:</label>
           <input
             name="adress"
             id="adress"
-            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-base"
+            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-xs"
             value={formik.values.adress}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          ></input>
+          />
+
           {formik.errors.adress && formik.touched.adress && (
             <p className="text-red-500">{formik.errors.adress}</p>
           )}
-          <MapView />
+          <div>
+            <MapView onAddressChange={handleAddressChange} />{" "}
+          </div>
 
           <button
             type="submit"

@@ -37,7 +37,11 @@ const SetViewToUserLocation = ({
   return null;
 };
 
-const MapView = () => {
+const MapView = ({
+  onAddressChange,
+}: {
+  onAddressChange: (address: string) => void;
+}) => {
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [zoom, setZoom] = useState<number>(13);
@@ -65,6 +69,7 @@ const MapView = () => {
       newPosition.lng
     );
     setAddress(newAddress);
+    onAddressChange(newAddress);
   };
 
   const handleZoom = (e: L.LeafletEvent) => {
@@ -78,7 +83,10 @@ const MapView = () => {
   }, []);
 
   return (
-    <div className="leaflet-container-wrapper">
+    <div
+      className="leaflet-container-wrapper"
+      style={{ height: "300px", width: "100%" }}
+    >
       <MapContainer
         center={position || [51.505, -0.09]}
         zoom={zoom}
@@ -108,14 +116,6 @@ const MapView = () => {
           </Marker>
         )}
       </MapContainer>
-
-      <div>
-        {address ? (
-          <p>Dirección: {address}</p>
-        ) : (
-          <p>Arrastra el marcador para obtener la dirección.</p>
-        )}
-      </div>
     </div>
   );
 };
