@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
@@ -51,7 +50,18 @@ const MapView = ({
     if (typeof window !== "undefined" && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          setPosition([pos.coords.latitude, pos.coords.longitude]);
+          const userPosition: [number, number] = [
+            pos.coords.latitude,
+            pos.coords.longitude,
+          ];
+          setPosition(userPosition);
+
+          getAddressFromLatLng(userPosition[0], userPosition[1]).then(
+            (address) => {
+              setAddress(address);
+              onAddressChange(address);
+            }
+          );
         },
         (err) => {
           console.error("Error obteniendo la ubicación:", err);
