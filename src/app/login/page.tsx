@@ -100,7 +100,7 @@ const Login = () => {
           <p className="text-xs">
             Todavia no estas registrado?{" "}
             <Link className="text-emerald-300" href="/register">
-              Registrate
+              Register
             </Link>
           </p>
         </form>

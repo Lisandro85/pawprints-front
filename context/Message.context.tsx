@@ -10,6 +10,8 @@ type Message = {
   message: string;
   isRead: boolean;
   create_At: string;
+  deletedBySender: string;
+  deletedByReceiver: string;
 };
 
 type MessageContextType = {
@@ -45,6 +47,7 @@ export const MessageProvider: React.FC<MessageProviderProps> = ({
       if (idUser) {
         try {
           const response = await fetchData(`message/user/${idUser}`);
+          console.log(response);
           setMessages(response);
         } catch (error) {
           console.error("Error al obtener los mensajes:", error);

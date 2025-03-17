@@ -23,10 +23,11 @@ const Message = () => {
   }, [idUser, fetchMessages]);
 
   const sentMessages = messages.filter(
-    (message) => message.sender.id === idUser
+    (message) => message.sender.id === idUser && !message.deletedBySender
   );
+
   const receivedMessages = messages.filter(
-    (message) => message.receiver.id === idUser
+    (message) => message.receiver.id === idUser && !message.deletedByReceiver
   );
 
   return (
@@ -77,6 +78,8 @@ const Message = () => {
                     subject={message.subject}
                     date={message.create_At}
                     type="received"
+                    currentIdUser={idUser}
+                    messageId={message.id}
                   />
                 </div>
               ))
@@ -101,6 +104,8 @@ const Message = () => {
                     subject={message.subject}
                     date={message.create_At}
                     type="sent"
+                    currentIdUser={idUser}
+                    messageId={message.id}
                   />
                 </div>
               ))

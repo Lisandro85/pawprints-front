@@ -15,4 +15,5 @@ export const validationSchemaPost = Yup.object().shape({
       }
     ),
   description: Yup.string().required("La descripción es obligatoria"),
+  adress: Yup.string().required("La dirección es obligatoria"),
 });

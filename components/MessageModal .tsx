@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useMessages } from "../context/Message.context";
 
 interface MessageModalProps {
+  senderName: string;
   isOpen: boolean;
   onClose: () => void;
   senderId: string | null;
@@ -18,6 +19,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
   senderId,
   receiverId,
   receiverName,
+  senderName,
   onSendMessage,
 }) => {
   const [message, setMessage] = useState("");
@@ -26,6 +28,8 @@ const MessageModal: React.FC<MessageModalProps> = ({
   const [error, setError] = useState("");
   const { data: session } = useSession();
   const { fetchMessages, refreshMessages, messages } = useMessages();
+  console.log("Receiver Name in Modal:", receiverName);
+  console.log("Sender Name in Modal:", senderName);
 
   const handleSendMessage = async () => {
     if (!message.trim() || !subject.trim()) {
@@ -82,10 +86,6 @@ const MessageModal: React.FC<MessageModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-lg font-bold  text-black">
-          Enviar mensaje a {receiverName}
-        </h2>
-
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <label htmlFor="asunto" className="block font-semibold mt-2 text-black">
@@ -94,7 +94,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
         <input
           type="text"
           id="asunto"
-          className="w-full border border-black rounded-lg p-2"
+          className="w-full border border-black rounded-lg p-2 text-black"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
@@ -107,7 +107,7 @@ const MessageModal: React.FC<MessageModalProps> = ({
         </label>
         <textarea
           id="mensaje"
-          className="w-full mt-2 p-2 border border-gray-300 rounded-lg"
+          className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-black"
           rows={4}
           placeholder="Escribe tu mensaje..."
           value={message}

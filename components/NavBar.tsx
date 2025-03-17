@@ -114,6 +114,7 @@ const NavBar = () => {
         {session && (
           <h1 className="p-2 flex flex-row items-center gap-2">
             <MdMessage
+              title="Bandeja de Mensajes"
               onClick={() => router.push("/message")}
               className="transform hover:scale-110 hover:rotate-12 transition-transform duration-300"
               size={25}

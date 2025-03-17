@@ -9,6 +9,12 @@ import { FcOk } from "react-icons/fc";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loadder";
 
+import dynamic from "next/dynamic";
+
+const MapView = dynamic(() => import("../../../components/MapView"), {
+  ssr: false,
+});
+
 const Post = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const { data: session, status } = useSession();
@@ -24,6 +30,7 @@ const Post = () => {
       image: null,
       description: "",
       userId: session?.user.id,
+      adress: "",
     },
     validationSchema: validationSchemaPost,
     onSubmit: async (values) => {
@@ -36,6 +43,7 @@ const Post = () => {
         const formData = new FormData();
         formData.append("file", values.image);
         formData.append("description", values.description);
+        formData.append("adress", values.adress);
         if (values.userId) {
           formData.append("userId", values.userId);
         } else {
@@ -120,6 +128,20 @@ const Post = () => {
           {formik.errors.description && formik.touched.description && (
             <p className="text-red-500">{formik.errors.description}</p>
           )}
+
+          <label htmlFor="adress">Adress:</label>
+          <input
+            name="adress"
+            id="adress"
+            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-base"
+            value={formik.values.adress}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          ></input>
+          {formik.errors.adress && formik.touched.adress && (
+            <p className="text-red-500">{formik.errors.adress}</p>
+          )}
+          <MapView />
 
           <button
             type="submit"

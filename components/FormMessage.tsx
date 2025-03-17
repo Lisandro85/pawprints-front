@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import MessageModal from "./MessageModal ";
+import DeleteMessageButton from "./DeleteMessageButton";
 
 interface MessageProps {
+  currentIdUser: string | null;
+  messageId: string;
   idSender: string | null;
   idReceiver: string | null;
   receiver: string;
@@ -15,8 +18,6 @@ interface MessageProps {
 const FormMessage = (props: MessageProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-
-  console.log(props);
   const formattedDate = props.date
     ? new Date(props.date).toLocaleDateString()
     : "";
@@ -27,6 +28,11 @@ const FormMessage = (props: MessageProps) => {
 
   const closeModal = () => {
     setIsOpenModal(false);
+  };
+
+  const handleDeleteSuccess = () => {
+    console.log("cerrando modal");
+    setIsOpen(false);
   };
 
   return (
@@ -57,9 +63,14 @@ const FormMessage = (props: MessageProps) => {
                   Responder
                 </button>
               )}
-              <button className="py-1 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300">
-                Eliminar
-              </button>
+
+              <DeleteMessageButton
+                messageId={props.messageId}
+                userId={props.currentIdUser}
+                currentUserId={props.currentIdUser}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+
               <button
                 onClick={() => setIsOpen(false)}
                 className="py-1 px-4 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-300"
@@ -77,8 +88,8 @@ const FormMessage = (props: MessageProps) => {
         senderId={props.idReceiver}
         receiverId={props.idSender}
         receiverName={props.receiver}
-        onSendMessage={(subject, message) => {
-          console.log("Mensaje enviado:", subject, message);
+        senderName={props.sender}
+        onSendMessage={() => {
           setIsOpen(false);
           closeModal();
         }}
