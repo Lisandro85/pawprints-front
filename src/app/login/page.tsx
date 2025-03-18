@@ -40,7 +40,7 @@ const Login = () => {
         });
       } else {
         Swal.fire({
-          title: "Usuario Logueado con Exito",
+          title: `Bienvenid@ ${values.username}!!!`,
           icon: "success",
         });
         router.push("/");

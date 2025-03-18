@@ -93,15 +93,12 @@ const MapView = ({
   }, []);
 
   return (
-    <div
-      className="leaflet-container-wrapper"
-      style={{ height: "300px", width: "100%" }}
-    >
+    <div className="m-2 w-full ">
       <MapContainer
         center={position || [51.505, -0.09]}
         zoom={zoom}
         scrollWheelZoom={true}
-        className="leaflet-container"
+        className="leaflet-container w-full h-full rounded-lg"
         whenReady={() => {
           if (mapRef.current) {
             console.log("Mapa listo");

@@ -124,7 +124,7 @@ const Post = () => {
           <textarea
             name="description"
             id="description"
-            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2"
+            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-xs w-64 h-auto break-words whitespace-normal"
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -132,11 +132,12 @@ const Post = () => {
           {formik.errors.description && formik.touched.description && (
             <p className="text-red-500">{formik.errors.description}</p>
           )}
-          <label htmlFor="adress">Adress:</label>
-          <input
+          <label htmlFor="adress">Dirección:</label>
+
+          <textarea
             name="adress"
             id="adress"
-            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-xs"
+            className="border border-gray-800 rounded-lg shadow-2xl bg-gray-500 opacity-90 p-2 text-xs w-64 h-auto break-words whitespace-normal"
             value={formik.values.adress}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -145,7 +146,7 @@ const Post = () => {
           {formik.errors.adress && formik.touched.adress && (
             <p className="text-red-500">{formik.errors.adress}</p>
           )}
-          <div>
+          <div className="m-2 ">
             <MapView onAddressChange={handleAddressChange} />{" "}
           </div>
 
