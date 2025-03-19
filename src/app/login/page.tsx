@@ -26,6 +26,8 @@ const Login = () => {
       password: "",
     },
     validationSchema: validationSchemaLogin,
+    validateOnBlur: true,
+    validateOnChange: true,
 
     onSubmit: async (values) => {
       const res = await signIn("credentials", {
@@ -65,14 +67,17 @@ const Login = () => {
               name="username"
               type="text"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.username}
               placeholder="Your Username"
               className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
             />
-            {formik.errors.username && formik.touched.username && (
-              <div style={{ color: "red" }}>{formik.errors.username}</div>
-            )}
           </div>
+          {formik.errors.username && formik.touched.username && (
+            <div className="text-xs text-amber-400">
+              {formik.errors.username}
+            </div>
+          )}
           <div>
             <label htmlFor="password" className="text-xs">
               Password
@@ -81,15 +86,22 @@ const Login = () => {
               id="password"
               name="password"
               type="password"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                formik.setFieldTouched("password", true, false);
+                formik.validateField("password");
+              }}
+              onBlur={formik.handleBlur}
               value={formik.values.password}
               placeholder="Your Password"
               className=" border border-black m-2 rounded-lg text-xs p-1 text-emerald-300"
             />
-            {formik.errors.password && formik.touched.password && (
-              <div style={{ color: "red" }}>{formik.errors.password}</div>
-            )}
           </div>
+          {formik.errors.password && formik.touched.password && (
+            <div className="text-xs text-amber-400">
+              {formik.errors.password}
+            </div>
+          )}
           <button
             disabled={!(formik.isValid && formik.dirty)}
             type="submit"

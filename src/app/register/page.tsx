@@ -32,6 +32,8 @@ function Register() {
       password: "",
     },
     validationSchema: validationSchemaRegister,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: async (values) => {
       try {
         const response = await fetch(
@@ -81,12 +83,16 @@ function Register() {
                 name="name"
                 type="text"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.name}
                 placeholder="Your Name"
                 className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
               />
+
               {formik.errors.name && formik.touched.name && (
-                <div style={{ color: "red" }}>{formik.errors.name}</div>
+                <div className="text-xs text-amber-400">
+                  {formik.errors.name}
+                </div>
               )}
             </div>
             <div className="flex flex-col text-center">
@@ -98,12 +104,16 @@ function Register() {
                 name="lastName"
                 type="text"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.lastName}
                 placeholder="Your lastName"
                 className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
               />
+
               {formik.errors.lastName && formik.touched.lastName && (
-                <div style={{ color: "red" }}>{formik.errors.lastName}</div>
+                <div className="text-xs text-amber-400">
+                  {formik.errors.lastName}
+                </div>
               )}
             </div>
           </div>
@@ -117,12 +127,16 @@ function Register() {
                 name="email"
                 type="text"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.email}
                 placeholder="Your Email"
                 className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs w-52"
               />
+
               {formik.errors.email && formik.touched.email && (
-                <div style={{ color: "red" }}>{formik.errors.email}</div>
+                <div className="text-xs text-amber-400">
+                  {formik.errors.email}
+                </div>
               )}
             </div>
 
@@ -135,12 +149,16 @@ function Register() {
                 name="birthDate"
                 type="date"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.birthDate}
                 placeholder="Your Bithdate"
                 className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
               />
+
               {formik.errors.birthDate && formik.touched.birthDate && (
-                <div style={{ color: "red" }}>{formik.errors.birthDate}</div>
+                <div className="text-xs text-amber-400">
+                  {formik.errors.birthDate}
+                </div>
               )}
             </div>
           </div>
@@ -154,14 +172,17 @@ function Register() {
               name="username"
               type="text"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.username}
               placeholder="Your Username"
               className=" border border-black m-2 rounded-lg p-1 text-emerald-300 text-xs"
             />
-            {formik.errors.username && formik.touched.username && (
-              <div style={{ color: "red" }}>{formik.errors.username}</div>
-            )}
           </div>
+          {formik.errors.username && formik.touched.username && (
+            <div className="text-xs text-amber-400">
+              {formik.errors.username}
+            </div>
+          )}
           <div className="flex flex-row items-center">
             <label htmlFor="password" className="text-xs">
               Password
@@ -170,15 +191,22 @@ function Register() {
               id="password"
               name="password"
               type="password"
-              onChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                formik.setFieldTouched("password", true, false);
+                formik.validateField("password");
+              }}
+              onBlur={formik.handleBlur}
               value={formik.values.password}
               placeholder="Your Password"
               className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
             />
-            {formik.errors.password && formik.touched.password && (
-              <div style={{ color: "red" }}>{formik.errors.password}</div>
-            )}
           </div>
+          {formik.errors.password && formik.touched.password && (
+            <div className="text-xs text-amber-400">
+              {formik.errors.password}
+            </div>
+          )}
           <button
             disabled={!(formik.isValid && formik.dirty)}
             type="submit"
