@@ -67,14 +67,16 @@ const NavBar = () => {
         >
           About <IoBodySharp />
         </Link>
-        <Link
-          href={"/register"}
-          className={`p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
-            pathName === "/register" && "bg-emerald-400/60"
-          }`}
-        >
-          Register <MdFormatAlignLeft />
-        </Link>
+        {!session && (
+          <Link
+            href={"/register"}
+            className={`p-1 rounded-lg hover:bg-green-400 flex flex-row items-center gap-2 ${
+              pathName === "/register" && "bg-emerald-400/60"
+            }`}
+          >
+            Register <MdFormatAlignLeft />
+          </Link>
+        )}
 
         {session && (
           <Link

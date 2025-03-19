@@ -3,6 +3,7 @@ import "./globals.css";
 import SessionAuthProvider from "../../context/SessionAuthProvider";
 import NavBar from "../../components/NavBar";
 import { MessageProvider } from "../../context/Message.context";
+import Footer from "../../components/Footer";
 
 export const metadata: Metadata = {
   title: "Paw Prints",
@@ -16,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <main>
+      <body className="min-h-screen flex flex-col">
+        <main className="flex-grow">
           <SessionAuthProvider>
             <MessageProvider>
               <NavBar />
@@ -25,6 +26,7 @@ export default function RootLayout({
             </MessageProvider>
           </SessionAuthProvider>
         </main>
+        <Footer />
       </body>
     </html>
   );
