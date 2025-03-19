@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { validationSchemaLogin } from "../../validationSchema/validationSchemaLogin";
@@ -8,8 +8,10 @@ import Swal from "sweetalert2";
 import Loader from "../../../components/Loadder";
 import Link from "next/link";
 import { useMessages } from "../../../context/Message.context";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const Login = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
   const { fetchMessages } = useMessages();
@@ -50,6 +52,10 @@ const Login = () => {
     },
   });
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <div>
       {status === "loading" && <Loader />}
@@ -78,14 +84,14 @@ const Login = () => {
               {formik.errors.username}
             </div>
           )}
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="text-xs">
               Password
             </label>
             <input
               id="password"
               name="password"
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               onChange={(e) => {
                 formik.handleChange(e);
                 formik.setFieldTouched("password", true, false);
@@ -94,8 +100,18 @@ const Login = () => {
               onBlur={formik.handleBlur}
               value={formik.values.password}
               placeholder="Your Password"
-              className=" border border-black m-2 rounded-lg text-xs p-1 text-emerald-300"
+              className="border border-black m-2 rounded-lg text-xs p-1 text-emerald-300"
             />
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {passwordVisible ? (
+                <MdVisibility size={24} className="text-gray-800" />
+              ) : (
+                <MdVisibilityOff size={24} className="text-gray-800" />
+              )}
+            </div>
           </div>
           {formik.errors.password && formik.touched.password && (
             <div className="text-xs text-amber-400">

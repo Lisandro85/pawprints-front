@@ -1,14 +1,16 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loadder";
 import { useFormik } from "formik";
 import { validationSchemaRegister } from "@/validationSchema/validationSchemaRegister";
 import Link from "next/link";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 function Register() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -64,6 +66,10 @@ function Register() {
       }
     },
   });
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div>
@@ -183,14 +189,15 @@ function Register() {
               {formik.errors.username}
             </div>
           )}
-          <div className="flex flex-row items-center">
+
+          <div className="flex flex-row items-center relative">
             <label htmlFor="password" className="text-xs">
               Password
             </label>
             <input
               id="password"
               name="password"
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               onChange={(e) => {
                 formik.handleChange(e);
                 formik.setFieldTouched("password", true, false);
@@ -199,14 +206,27 @@ function Register() {
               onBlur={formik.handleBlur}
               value={formik.values.password}
               placeholder="Your Password"
-              className=" border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
+              className="border border-black m-2 rounded-lg  p-1 text-emerald-300 text-xs"
             />
+
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {passwordVisible ? (
+                <MdVisibility size={24} className="text-gray-800" />
+              ) : (
+                <MdVisibilityOff size={24} className="text-gray-800" />
+              )}
+            </div>
           </div>
+
           {formik.errors.password && formik.touched.password && (
             <div className="text-xs text-amber-400">
               {formik.errors.password}
             </div>
           )}
+
           <button
             disabled={!(formik.isValid && formik.dirty)}
             type="submit"
