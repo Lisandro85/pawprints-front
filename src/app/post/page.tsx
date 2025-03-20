@@ -63,7 +63,7 @@ const Post = () => {
         const result = await response.json();
         console.log(result);
         Swal.fire({
-          title: "Imagen Cargada con Exito",
+          title: "Post Creado con Exito",
           icon: "success",
         });
         router.push("/lost");

@@ -38,12 +38,15 @@ const Lost = () => {
           data.map((post) => (
             <CardAnimals
               key={post.id}
+              postId={post.id}
               user={post.user.name}
               url={post.urlImg}
               description={post.description}
               adress={post.adress}
               idUser={post.user.id}
               currentUserId={currentUserId}
+              setData={setData}
+              data={data}
             />
           ))
         ) : (
