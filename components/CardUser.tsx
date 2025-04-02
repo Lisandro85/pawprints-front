@@ -4,15 +4,19 @@ interface UserProps {
   id: string;
   name: string;
   email: string;
-  role: string;
+  active: boolean;
 }
 
 const CardUser = (props: UserProps) => {
   return (
-    <div className="flex flex-row space-x-2">
+    <div
+      className={`flex flex-row space-x-2 ${
+        props.active ? "text-blue-500" : "text-red-500"
+      }`}
+    >
       <h1>{props.name}</h1>
       <h2>{props.email}</h2>
-      <h3> {props.role}</h3>
+      <h3>{props.active ? "Activo" : "Inactivo"}</h3>
     </div>
   );
 };

@@ -10,7 +10,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: string;
+  isActive: boolean;
 }
 
 const Dashboard = () => {
@@ -39,6 +39,7 @@ const Dashboard = () => {
     });
     const data = await res.json();
     setData(data);
+    console.log(data);
   };
 
   return (
@@ -52,7 +53,7 @@ const Dashboard = () => {
           key={user.id}
           name={user.name}
           email={user.email}
-          role={user.role}
+          active={user.isActive}
         />
       ))}
     </div>
